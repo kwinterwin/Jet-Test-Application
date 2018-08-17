@@ -13,17 +13,16 @@ export default class ActivitiesPopupView extends JetView{
 				{ view:"richselect", name:"TypeID",  label:"Type",  options:{body:{template:"#Value#", data: ActivityTypesData}}},
 				{ view:"richselect", name:"ContactID",  label:"Contact", options:{body:{template:"#FirstName# #LastName#", data: ContactsData}} },
 				{cols:[
-					{view:"datepicker", label:"Date", name:"DueDate",  format:"%d-%m-%Y"},{view:"datepicker", type:"time",  label:"Time"}
+					{view:"datepicker", label:"Date", name:"DueDate",  format:"%d-%m-%Y"},
+					{view:"datepicker", type:"time",  label:"Time", name:"Time"}
 				]},
-				{view:"checkbox", labelRight:"Completed", labelAlign:"right", name:"State"},
+				{view:"checkbox", labelRight:"Completed", labelAlign:"right", name:"State", checkValue:"Close", uncheckValue:"Open"},
 				{cols:[
 					{},{},
 					{ view:"button", value:"", localId:"addButton", type:"form", inputWidth:100, click:()=>{
 						if(this.$$("form").validate()){
 							let values = this.$$("form").getValues();
-							if(this.getRoot().queryView({name:"State"}).getValue()==1)
-								values.State = "Close";
-							else values.State = "Open";
+
 							if (ActivityData.exists(values.id))
 								ActivityData.updateItem(values.id, values);
 							else
@@ -32,7 +31,7 @@ export default class ActivitiesPopupView extends JetView{
 						}
 						else webix.message({text: "Validation is unsuccess", type: "error"});
 					} },
-					{ view:"button", value:"Cancel", inputWidth:100,  click:()=>this.hideWindow()}
+					{ view:"button", value:"Cancel", inputWidth:100,  click:()=>this.hideWindow()},
 				]}
 			],
 			rules: {
@@ -49,7 +48,7 @@ export default class ActivitiesPopupView extends JetView{
 			modal:true,
 			body:{
 				rows:[
-					{view:"toolbar", cols:[{view:"label", label:""}]},
+					{view:"toolbar", cols:[{view:"label", label:"", localId:"toolbarLabel"}]},
 					form
 				]
 			}
@@ -57,21 +56,14 @@ export default class ActivitiesPopupView extends JetView{
 		return popup;
 	}
     
-	showWindow() {
+	showWindow(label, buttonLabel, values) {
+		if(typeof values == "undefined")
+			this.$$("form").clear();	
+		else
+			this.$$("form").setValues(values);
 		this.getRoot().show();
-	}
-    
-	addActivity(label, buttonLabel){
-		this.showWindow();
-		this.getRoot().queryView({view:"label"}).setValue(label);
+		this.$$("toolbarLabel").setValue(label);
 		this.$$("addButton").setValue(buttonLabel);
-	}
-    
-	editActivity(label, buttonLabel, value){
-		this.showWindow();
-		this.getRoot().queryView({view:"label"}).setValue(label);
-		this.$$("addButton").setValue(buttonLabel);
-		this.getRoot().queryView({view:"form"}).setValues(value);
 	}
 
 	hideWindow(){

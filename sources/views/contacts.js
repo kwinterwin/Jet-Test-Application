@@ -1,6 +1,5 @@
 import {JetView} from "webix-jet";
 import {ContactsData} from "models/contactsCollection";
-import ContactInformationView from "./contactInformation";
 
 export default class ContactsView extends JetView{
 	config(){
@@ -14,22 +13,22 @@ export default class ContactsView extends JetView{
 			template:"#FirstName# #LastName#<br>#Email#",
 			on: {
 				"onAfterSelect":(id)=>{
-					var path = "/top/contacts?id="+id;
+					var path = "/top/contacts?id="+id + "/contactInformation";
 					this.app.show(path);
 				}
 			}};
 	
 		
-		return {cols:[{rows:[list,{}]},ContactInformationView]};
+		return {cols:[list,{$subview:true}]};
 	}
-	init(view){
-		view.queryView({view:"list"}).parse(ContactsData);  
+	init(){
+		this.$$("list").parse(ContactsData);
 	}
-	urlChange(view){
+	urlChange(){
 		ContactsData.waitData.then(()=>{
 			var id = this.getParam("id") || ContactsData.getFirstId();
 			if(ContactsData.exists(id)) {
-				view.queryView({view:"list"}).select(id);
+				this.$$("list").select(id);
 			}
 		});
 		

@@ -118,9 +118,19 @@
 	padding-right: 8px;
 }
 
-.webix_template .image{
+.information .webix_template div .image{
 	height: 230px;
 	background-color: lightgray;
+}
+
+.information .webix_template{
+	display: flex;
+	align-items: flex-start;
+}
+
+.information .webix_template div{
+	flex-basis:33%;
+	padding: 12px;
 }
 
 .rightButton .webix_el_box{

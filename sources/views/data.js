@@ -9,7 +9,8 @@ export default class DataView extends JetView{
 		let view = {
 			rows:[
 				{view:"button", type:"icon", icon:"plus-square", label:"Add activity", css:"rightButton", inputWidth:110, click:()=>{
-					this._jetPopup.addActivity("Add activity", "Add");
+					let value = this.getRoot().queryView({view:"datatable"}).getItem(view.row);
+					this._jetPopup.showWindow("Add activity", "Add", value);
 				}},
 				{
 					view:"datatable", 
@@ -19,7 +20,7 @@ export default class DataView extends JetView{
 						{ template:"{common.checkbox()}", checkValue:"Close", uncheckValue:"Open", id:"State", width:55, header:""},
 						{ id:"TypeID",   header:["Activity type", {content:"selectFilter"}], fillspace:2, sort:"string", options:ActivityTypesData},
 						{ id:"DueDate",    header:["Due date", {content:"datepickerFilter"}], sort:"date", fillspace:2, format:function(value){
-							let DateParser = webix.Date.dateToStr("%d-%m-%Y");
+							let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
 							value = DateParser(value);
 							return value;
 						}},
@@ -44,7 +45,7 @@ export default class DataView extends JetView{
 						},
 						edit:(id, view)=> {
 							let value = this.getRoot().queryView({view:"datatable"}).getItem(view.row);
-							this._jetPopup.editActivity("Edit activity", "Save", value);
+							this._jetPopup.showWindow("Edit activity", "Save", value);
 							return false;
 						}
 					}
