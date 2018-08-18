@@ -42,7 +42,7 @@ export default class ActivitiesPopupView extends JetView{
           
 		let popup = {
 			view:"popup",
-			id:"my_popup",
+			localId:"my_popup",
 			width:600,
 			position:"center",
 			modal:true,
@@ -59,6 +59,10 @@ export default class ActivitiesPopupView extends JetView{
 	showWindow(label, buttonLabel, values) {
 		if(typeof values == "undefined")
 			this.$$("form").clear();	
+		if (isNaN(values)==false){
+			this.$$("form").elements.ContactID.setValue(values);
+			this.$$("form").elements.ContactID.disable();
+		}
 		else
 			this.$$("form").setValues(values);
 		this.getRoot().show();

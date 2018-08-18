@@ -17,9 +17,17 @@ export default class ContactsView extends JetView{
 					this.app.show(path);
 				}
 			}};
+
+		let addButton = {
+			view:"button",
+			value:"Add contact",
+			click:()=>{
+				var path = "/top/contacts/contactForm";
+				this.app.show(path);
+			}
+		};
 	
-		
-		return {cols:[list,{$subview:true}]};
+		return {cols:[{rows:[list, addButton]},{$subview:true}]};
 	}
 	init(){
 		this.$$("list").parse(ContactsData);

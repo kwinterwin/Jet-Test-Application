@@ -118,7 +118,7 @@
 	padding-right: 8px;
 }
 
-.information .webix_template div .image{
+.webix_template div .image{
 	height: 230px;
 	background-color: lightgray;
 }
@@ -133,7 +133,15 @@
 	padding: 12px;
 }
 
-.rightButton .webix_el_box{
+.blueButton .webix_el_box button, .blueButton .webix_el_box span, .uploadButton .webix_el_box button, .uploadButton .webix_el_box span{
+	border-bottom-width: 0;
+    background: #3498db;
+    color: #fff;
+	border-color: #3498db;
+	text-align: center;
+}
+
+.rightButton .webix_el_box, .blueButton .webix_el_box{
 	float:right;
 }
 
