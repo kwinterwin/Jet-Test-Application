@@ -85,7 +85,7 @@ export default class DatatableView extends JetView{
     
 	urlChange(){
 		this.showDatatable();
-		this._jetPopup = this.ui(ActivitiesPopupView);
+		this._jetPopup = this.ui(ActivitiesPopupView);	
 	}
 
 }

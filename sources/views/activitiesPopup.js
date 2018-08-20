@@ -59,7 +59,7 @@ export default class ActivitiesPopupView extends JetView{
 	showWindow(label, buttonLabel, values) {
 		if(typeof values == "undefined")
 			this.$$("form").clear();	
-		if (isNaN(values)==false){
+		else if (isNaN(values)==false){
 			this.$$("form").elements.ContactID.setValue(values);
 			this.$$("form").elements.ContactID.disable();
 		}

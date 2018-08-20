@@ -3,6 +3,7 @@ import {StatusesData} from "../models/statusesCollection";
 import {ContactsData} from "models/contactsCollection";
 
 export default class ContactFormView extends JetView{
+
 	config(){
 		let toolbar = {
 			view:"toolbar",
@@ -30,12 +31,27 @@ export default class ContactFormView extends JetView{
 					{ view:"datepicker", label:"Birthday", labelWidth:100, name:"Birthday" },
 					{
 						cols:[
-							{template:"<div class='photo'><img src='' class='image' style='display:block;'></div>", borderless:true}, //#Photo#
+							{template:"<div class='photo'><img src='#Photo#' class='image' style='display:block;'></div>", borderless:true, localId:"templatePhoto"}, //#Photo#
 							{rows:[
 								{},
-								{view: "uploader", value:"Change photo"},
+								{view: "uploader", value:"Change photo", autosend:false, 
+									multiple:false,
+									on:{        
+										onBeforeFileAdd: (upload)=>{        
+											var file = upload.file;
+											var reader = new FileReader();  
+											reader.onload = (event)=>{
+												var dataurl = event.target.result;
+												this.$$("templatePhoto").setValues({Photo:dataurl});
+												this.$$("form").setValues({Photo:dataurl}, true);
+											};           
+											reader.readAsDataURL(file);
+											return false;
+										}}
+								},
 								{view:"button", value:"Delete photo", type:"form", click:()=>{
-
+									this.$$("templatePhoto").setValues({Photo:"bgf"});
+									this.$$("form").setValues({Photo:"fh"}, true);
 								}}
 							]
 							}
@@ -49,8 +65,32 @@ export default class ContactFormView extends JetView{
 		let bottomButton = {
 			cols:[
 				{},{},
-				{view:"button", value:"Cancel"},
-				{view:"button", value:"", type:"form", localId:"addButton"}
+				{view:"button", value:"Cancel", click:()=>{
+					var id = this.getParam("id", true);
+					if(typeof id == "undefined"){
+						var path = "/top/contacts?id=1/contactInformation";
+						this.app.show(path);
+					}
+					else {
+						let path = "/top/contacts?id=" + id + "/contactInformation";
+						this.app.show(path);
+					}
+				}},
+				{view:"button", value:"", type:"form", localId:"addButton", click:()=>{
+					var id = this.getParam("id", true);
+					let values = this.$$("form").getValues();
+					if(typeof id == "undefined"){
+						ContactsData.add(this.$$("form").getValues());
+						// console.log(ContactsData.getLastId());
+						let path = "/top/contacts?id=2/contactInformation";
+						this.app.show(path);
+					}
+					else {
+						ContactsData.updateItem(id, values);
+						let path = "/top/contacts?id=" + id + "/contactInformation";
+						this.app.show(path);
+					}
+				}}
 			],
 			padding:15,
 			borderless:true
@@ -59,13 +99,15 @@ export default class ContactFormView extends JetView{
 		let view = {
 			rows:[
 				toolbar,
-				{ view:"form", elements:elements, borderless:true},{},
+				{ view:"form", elements:elements, borderless:true, localId:"form"},{},
 				bottomButton
 			],
 			gravity:3
 		};
+
 		return view;
 	}
+
 	init(){
 		var id = this.getParam("id", true);
 		if(typeof id == "undefined"){
@@ -73,11 +115,20 @@ export default class ContactFormView extends JetView{
 			this.$$("addButton").setValue("Add");
 		}
 		else {
+			this.$$("templatePhoto").setValues({Photo:ContactsData.getItem(id).Photo});
 			this.$$("labelToolbar").setValue("Edit contact");
 			this.$$("addButton").setValue("Save");
 		}
 	}
 	urlChange(){
-				
+		var id = this.getParam("id", true);
+		ContactsData.waitData.then(()=>{
+			if (typeof id == "undefined"){
+				this.$$("form").clear();
+			}
+			else {
+				this.$$("form").setValues(ContactsData.getItem(id));
+			}
+		});	
 	}
 }
