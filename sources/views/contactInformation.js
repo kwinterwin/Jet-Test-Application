@@ -2,6 +2,7 @@ import {JetView} from "webix-jet";
 import {ContactsData} from "../models/contactsCollection";
 import {StatusesData} from "../models/statusesCollection";
 import TabviewView from "./contactsTabview";
+import {icon} from "../models/userIcon";
 
 export default class ContactInformationView extends JetView{
 	config(){
@@ -76,6 +77,8 @@ export default class ContactInformationView extends JetView{
 					item.StatusValue = "";
 					item.StatusIcon = "";
 				}
+				if(item.Photo==" " || item.Photo=="")
+					item.Photo = icon;
 				this.$$("template").setValues(item);
 			}
 		});

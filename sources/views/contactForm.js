@@ -1,6 +1,7 @@
 import {JetView} from "webix-jet";
 import {StatusesData} from "../models/statusesCollection";
 import {ContactsData} from "models/contactsCollection";
+import {icon} from "../models/userIcon";
 
 export default class ContactFormView extends JetView{
 
@@ -50,8 +51,8 @@ export default class ContactFormView extends JetView{
 										}}
 								},
 								{view:"button", value:"Delete photo", type:"form", click:()=>{
-									this.$$("templatePhoto").setValues({Photo:"bgf"});
-									this.$$("form").setValues({Photo:"fh"}, true);
+									this.$$("templatePhoto").setValues({Photo:icon});
+									this.$$("form").setValues({Photo:" "}, true);
 								}}
 							]
 							}
@@ -81,7 +82,6 @@ export default class ContactFormView extends JetView{
 					let values = this.$$("form").getValues();
 					if(typeof id == "undefined"){
 						ContactsData.add(this.$$("form").getValues());
-						// console.log(ContactsData.getLastId());
 						let path = "/top/contacts?id=2/contactInformation";
 						this.app.show(path);
 					}
@@ -109,13 +109,17 @@ export default class ContactFormView extends JetView{
 	}
 
 	init(){
+		
 		var id = this.getParam("id", true);
+		let item = ContactsData.getItem(id);
 		if(typeof id == "undefined"){
 			this.$$("labelToolbar").setValue("Add new contact");
 			this.$$("addButton").setValue("Add");
 		}
 		else {
-			this.$$("templatePhoto").setValues({Photo:ContactsData.getItem(id).Photo});
+			if(item.Photo==" " || item.Photo=="")
+				this.$$("templatePhoto").setValues({Photo: icon});
+			else this.$$("templatePhoto").setValues({Photo:ContactsData.getItem(id).Photo});
 			this.$$("labelToolbar").setValue("Edit contact");
 			this.$$("addButton").setValue("Save");
 		}

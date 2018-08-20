@@ -3,7 +3,8 @@ export var ContactsData = new webix.DataCollection({
 		$init:function(obj){ 
 			obj.value = obj.FirstName + " " + obj.LastName; 
 			let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
-			obj.Birthday = DateParser(obj.Birthday);},
+			obj.Birthday = DateParser(obj.Birthday);
+		},
 		$save:function(obj){
 			let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
 			obj.Birthday = DateParser(obj.Birthday);
