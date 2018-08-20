@@ -115,6 +115,7 @@ export default class ContactFormView extends JetView{
 		if(typeof id == "undefined"){
 			this.$$("labelToolbar").setValue("Add new contact");
 			this.$$("addButton").setValue("Add");
+			this.$$("templatePhoto").setValues({Photo: icon});
 		}
 		else {
 			if(item.Photo==" " || item.Photo=="")

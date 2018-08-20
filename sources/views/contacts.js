@@ -31,14 +31,15 @@ export default class ContactsView extends JetView{
 	}
 	init(){
 		this.$$("list").parse(ContactsData);
-	}
-	urlChange(){
+
 		ContactsData.waitData.then(()=>{
 			var id = this.getParam("id") || ContactsData.getFirstId();
 			if(ContactsData.exists(id)) {
 				this.$$("list").select(id);
 			}
 		});
+	}
+	urlChange(){
 		
 	}
 }

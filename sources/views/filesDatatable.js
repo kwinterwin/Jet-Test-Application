@@ -25,8 +25,7 @@ export default class FilesDatatableView extends JetView{
 			columns:[
 				{ id:"Name", header:"Name", fillspace:2, sort:"string"},
 				{ id:"ChangeDate", header:"Change Date", fillspace:1.1, sort:this.sort_by_date},
-				{ id:"Size", header:"Size", fillspace:0.8, sort:"int"},
-				{ id:"ContactID", header:"", fillspace:0.8},
+				{ id:"Size", header:"Size", fillspace:0.8, sort:"int", template:"#Size# kb"},
 				{ template:"<i class='fa fa-trash delete'></i>", width:40}
 			],
 			onClick: {
