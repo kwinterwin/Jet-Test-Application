@@ -40,6 +40,11 @@ export default class ContactsView extends JetView{
 		});
 	}
 	urlChange(){
-		
+		ContactsData.waitData.then(()=>{
+			var id = this.getParam("id");
+			if(ContactsData.exists(id)) {
+				this.$$("list").select(id);
+			}
+		});
 	}
 }

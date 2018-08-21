@@ -22,7 +22,7 @@ export default class ContactInformationView extends JetView{
 								let id = this.getParam("id", true);
 								ContactsData.remove(id);
 								id = ContactsData.getFirstId();
-								var path = "/top/contacts?id="+id +"/contactForm";
+								var path = "/top/contacts?id="+id +"/contactInformation";
 								this.app.show(path);
 							}
 						}

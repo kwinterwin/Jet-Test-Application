@@ -24,6 +24,15 @@ export default class DatatableView extends JetView{
 				{ template:"<i class='fa fa-pencil-square-o edit'></i>", width:40},
 				{ template:"<i class='fa fa-trash delete'></i>", width:40}
 			],
+			on:{
+				onAfterFilter: () => {
+					let id = this.getParam("id", true);
+					if (typeof id != "undefined")
+						this.$$("activityDatatable").filter((obj) => {
+							return obj.ContactID == id;
+						}, "", true);
+				},
+			},
 			onClick: {
 				delete: function (e, id) {
 					webix.confirm({
@@ -66,6 +75,7 @@ export default class DatatableView extends JetView{
 			ActivityData.waitData.then(()=>{
 				this.$$("activityDatatable").parse(ActivityData);
 			});	
+			this.$$("activityDatatable").showColumn("ContactID");
 		}
 		else {
 			ActivityData.waitData.then(()=>{
@@ -74,13 +84,13 @@ export default class DatatableView extends JetView{
 						return obj.ContactID == id;
 					});
 				});
-			});            
+			});  
+			
 		}
 	}
     
 	init(){
-		this.showDatatable();	
-		this._jetPopup = this.ui(ActivitiesPopupView);
+		this.$$("activityDatatable").hideColumn("ContactID");
 	}
     
 	urlChange(){
