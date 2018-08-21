@@ -84,7 +84,7 @@ export default class ContactFormView extends JetView{
 						if(values.hasOwnProperty("Photo")==false)
 							values.Photo = " ";							
 						ContactsData.add(values);
-						let id = ContactsData.getFirstId();
+						let id = ContactsData.getFirstId(); 
 						let path = "/top/contacts?id=" + id +"/contactInformation";
 						this.app.show(path);
 					}
