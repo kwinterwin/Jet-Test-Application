@@ -10,8 +10,8 @@ export default class ActivitiesPopupView extends JetView{
 			localId: "form",
 			elements:[
 				{ view:"textarea", label:"Details", name:"Details"},
-				{ view:"richselect", name:"TypeID",  label:"Type",  options:{body:{template:"#Value#", data: ActivityTypesData}}},
-				{ view:"richselect", name:"ContactID",  label:"Contact", options:{body:{template:"#FirstName# #LastName#", data: ContactsData}} },
+				{ view:"richselect", name:"TypeID",  label:"Type", required:true, options:{body:{template:"#Value#", data: ActivityTypesData}}},
+				{ view:"richselect", name:"ContactID",  label:"Contact", required:true, options:{body:{template:"#FirstName# #LastName#", data: ContactsData}} },
 				{cols:[
 					{view:"datepicker", label:"Date", name:"DueDate",  format:"%d-%m-%Y"},
 					{view:"datepicker", type:"time",  label:"Time", name:"Time"}
@@ -23,7 +23,7 @@ export default class ActivitiesPopupView extends JetView{
 						if(this.$$("form").validate()){
 							let values = this.$$("form").getValues();
 
-							if (ActivityData.exists(values.id))
+							if (values.id && ActivityData.exists(values.id))
 								ActivityData.updateItem(values.id, values);
 							else
 								ActivityData.add(values); 
@@ -59,7 +59,7 @@ export default class ActivitiesPopupView extends JetView{
 	showWindow(label, buttonLabel, values) {
 		if(typeof values == "undefined")
 			this.$$("form").clear();	
-		else if (isNaN(values)==false){
+		else if (typeof values !== "object"){
 			this.$$("form").elements.ContactID.setValue(values);
 			this.$$("form").elements.ContactID.disable();
 		}

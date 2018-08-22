@@ -2,11 +2,11 @@ export var ContactsData = new webix.DataCollection({
 	scheme:{
 		$init:function(obj){ 
 			obj.value = obj.FirstName + " " + obj.LastName; 
-			let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
-			obj.Birthday = DateParser(obj.Birthday);
+			let DateParser = webix.Date.strToDate("%d-%m-%Y");
+			obj.Birthday = webix.i18n.longDateFormatStr(DateParser(obj.Birthday));
 		},
 		$save:function(obj){
-			let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
+			let DateParser = webix.Date.dateToStr("%d-%m-%Y");
 			obj.Birthday = DateParser(obj.Birthday);
 		}
 	},

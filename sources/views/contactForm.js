@@ -65,16 +65,17 @@ export default class ContactFormView extends JetView{
         
 		let bottomButton = {
 			cols:[
-				{},{},
+				{gravity:2},
 				{view:"button", value:"Cancel", click:()=>{
 					var id = this.getParam("id", true);
 					if(typeof id == "undefined"){
-						var path = "/top/contacts?id=1/contactInformation";
-						this.app.show(path);
+						id=ContactsData.getFirstId();
+						var path = "/top/contacts?id=" + id + "/contactInformation";
+						this.show(path);
 					}
 					else {
 						let path = "/top/contacts?id=" + id + "/contactInformation";
-						this.app.show(path);
+						this.show(path);
 					}
 				}},
 				{view:"button", value:"", type:"form", localId:"addButton", click:()=>{
@@ -84,14 +85,16 @@ export default class ContactFormView extends JetView{
 						if(values.hasOwnProperty("Photo")==false)
 							values.Photo = " ";							
 						ContactsData.add(values);
-						let id = ContactsData.getFirstId();
-						let path = "/top/contacts?id=" + id +"/contactInformation";
-						this.app.show(path);
+						ContactsData.data.attachEvent("onIdChange", (oldid,newid)=>{
+							let path = "/top/contacts?id=" + newid +"/contactInformation";
+							this.show(path);
+						});
+
 					}
 					else {
 						ContactsData.updateItem(id, values);
 						let path = "/top/contacts?id=" + id + "/contactInformation";
-						this.app.show(path);
+						this.show(path);
 					}
 				}}
 			],

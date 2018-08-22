@@ -23,7 +23,7 @@ export default class ContactsView extends JetView{
 			value:"Add contact",
 			click:()=>{
 				var path = "/top/contacts/contactForm";
-				this.app.show(path);
+				this.show(path);
 			}
 		};
 	

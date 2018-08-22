@@ -75,7 +75,7 @@ export default class DatatableView extends JetView{
 			ActivityData.waitData.then(()=>{
 				this.$$("activityDatatable").parse(ActivityData);
 			});	
-			this.$$("activityDatatable").showColumn("ContactID");
+			// this.$$("activityDatatable").showColumn("ContactID");
 		}
 		else {
 			ActivityData.waitData.then(()=>{
@@ -90,7 +90,8 @@ export default class DatatableView extends JetView{
 	}
     
 	init(){
-		this.$$("activityDatatable").hideColumn("ContactID");
+		// this.$$("activityDatatable").hideColumn("ContactID");
+		this.showDatatable();
 	}
     
 	urlChange(){
