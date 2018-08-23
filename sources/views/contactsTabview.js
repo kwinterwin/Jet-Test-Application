@@ -5,17 +5,18 @@ import FilesDatatableView from "./filesDatatable";
 
 export default class TabviewView extends JetView{
 	config(){
+		const _ = this.app.getService("locale")._;
 		let tabview = {
 			view:"tabview",
 			animate: true,
 			cells:[     
 				{
-					header:"Activities",
+					header:_("Activities"),
 					body:{
 						rows:[DatatableView]
 					}      
 				},
-				{ header:"Files", 
+				{ header:_("Files"), 
 					body:{
 						rows:[FilesDatatableView]
 					} 

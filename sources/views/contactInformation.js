@@ -6,15 +6,15 @@ import {icon} from "../models/userIcon";
 
 export default class ContactInformationView extends JetView{
 	config(){
-
+		const _ = this.app.getService("locale")._;
 		let toolbar = {
 			view:"toolbar",
 			cols:[
 				{view:"label", label:"#FirstName# #LastName#"},
 				{},
-				{view:"button", label:"Delete", type: "icon", icon: "trash", width:100, click:()=>{
+				{view:"button", label:_("Delete"), type: "icon", icon: "trash", width:100, click:()=>{
 					webix.confirm({
-						text: "Contact will be removed. Continue?", title: "Attention",
+						text: _("Contact will be removed. Continue?"), title: _("Attention"),
 						ok: "Yes",
 						cancel: "No",
 						callback: (result)=> {
@@ -28,7 +28,7 @@ export default class ContactInformationView extends JetView{
 						}
 					});
 				}},
-				{view:"button", label:"Edit", type:"icon", icon:"pencil-square-o", width:100, 
+				{view:"button", label:_("Edit"), type:"icon", icon:"pencil-square-o", width:200, 
 					click:()=>{
 						let id = this.getParam("id", true);
 						var path = "/top/contacts?id="+id + "/contactForm";
@@ -40,11 +40,11 @@ export default class ContactInformationView extends JetView{
 			view:"template",
 			localId:"template",
 			css: "information",
-			template:"<div class='photo'><img src='#Photo#' class='image' style='display:block;'> <span style='text-align:center;'>#StatusValue# #StatusIcon#</span></div>" + 
-			"<div style='float:top;'><span><i class='fa fa-envelope'></i>#Email#</span><span><i class='fa fa-skype'></i>#Skype#</span>"
-		+ "<span><i class='fa fa-tag'></i>#Job#</span><span><i class='fa fa-briefcase'></i>#Company#</span></div>"+
-			"<div><span><i class='fa fa-calendar'></i>#Birthday#</span><span><i class='fa fa-map-marker'></i>#Address#</span></div>"
-		};
+			template:function(obj){ return "<div class='photo'><img src='" + obj.Photo + "' class='image' style='display:block;'> <span style='text-align:center;'>" + obj.StatusValue + " " + obj.StatusIcon + "</span></div>" + 
+			"<div style='float:top;'><span><i class='fa fa-envelope'></i>" + obj.Email + "</span><span><i class='fa fa-skype'></i>" + obj.Skype + "</span>"
+		+ "<span><i class='fa fa-tag'></i>" + obj.Job + "</span><span><i class='fa fa-briefcase'></i>" + obj.Company + "</span></div>"+
+			"<div><span><i class='fa fa-calendar'></i>" +  webix.i18n.longDateFormatStr(obj.Birthday) + "</span><span><i class='fa fa-map-marker'></i>" + obj.Address + "</span></div>"
+			}};
 
 		let view = {
 			rows:[

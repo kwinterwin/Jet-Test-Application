@@ -5,18 +5,19 @@ import {ActivityTypesData} from "../models/activityTypesCollection";
 
 export default class ActivitiesPopupView extends JetView{
 	config(){
+		const _ = this.app.getService("locale")._;
 		let form = {
 			view:"form",
 			localId: "form",
 			elements:[
-				{ view:"textarea", label:"Details", name:"Details"},
-				{ view:"richselect", name:"TypeID",  label:"Type", required:true, options:{body:{template:"#Value#", data: ActivityTypesData}}},
-				{ view:"richselect", name:"ContactID",  label:"Contact", required:true, options:{body:{template:"#FirstName# #LastName#", data: ContactsData}} },
+				{ view:"textarea", label:_("Details"), labelWidth:100, name:"Details"},
+				{ view:"richselect", name:"TypeID", labelWidth:100,  label:_("Type"), required:true, options:{body:{template:"#Value#", data: ActivityTypesData}}},
+				{ view:"richselect", name:"ContactID", labelWidth:100,  label:_("Contact"), required:true, options:{body:{template:"#FirstName# #LastName#", data: ContactsData}} },
 				{cols:[
-					{view:"datepicker", label:"Date", name:"DueDate",  format:"%d-%m-%Y"},
-					{view:"datepicker", type:"time",  label:"Time", name:"Time"}
+					{view:"datepicker", label:_("Date"), labelWidth:100, name:"DueDate",  format:"%d-%m-%Y"},
+					{view:"datepicker", type:"time", labelWidth:100,  label:_("Time"), name:"Time"}
 				]},
-				{view:"checkbox", labelRight:"Completed", labelAlign:"right", name:"State", checkValue:"Close", uncheckValue:"Open"},
+				{view:"checkbox", labelRight:_("Completed"), labelAlign:"right", labelWidth:100,  name:"State", checkValue:"Close", uncheckValue:"Open"},
 				{cols:[
 					{},{},
 					{ view:"button", value:"", localId:"addButton", type:"form", inputWidth:100, click:()=>{
@@ -29,9 +30,9 @@ export default class ActivitiesPopupView extends JetView{
 								ActivityData.add(values); 
 							this.hideWindow();
 						}
-						else webix.message({text: "Validation is unsuccess", type: "error"});
+						else webix.message({text: _("Validation is unsuccess"), type: "error"});
 					} },
-					{ view:"button", value:"Cancel", inputWidth:100,  click:()=>this.hideWindow()},
+					{ view:"button", value:_("Cancel"), inputWidth:100,  click:()=>this.hideWindow()},
 				]}
 			],
 			rules: {
@@ -57,6 +58,7 @@ export default class ActivitiesPopupView extends JetView{
 	}
     
 	showWindow(label, buttonLabel, values) {
+		const _ = this.app.getService("locale")._;
 		if(typeof values == "undefined")
 			this.$$("form").clear();	
 		else if (typeof values !== "object"){
@@ -66,8 +68,8 @@ export default class ActivitiesPopupView extends JetView{
 		else
 			this.$$("form").setValues(values);
 		this.getRoot().show();
-		this.$$("toolbarLabel").setValue(label);
-		this.$$("addButton").setValue(buttonLabel);
+		this.$$("toolbarLabel").setValue(_(label));
+		this.$$("addButton").setValue(_(buttonLabel));
 	}
 
 	hideWindow(){

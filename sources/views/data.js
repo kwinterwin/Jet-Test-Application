@@ -4,9 +4,10 @@ import DatatableView from "./datatableActivities";
 
 export default class DataView extends JetView{
 	config(){
+		const _ = this.app.getService("locale")._;
 		let view = {
 			rows:[
-				{view:"button", type:"icon", icon:"plus-square", label:"Add activity", css:"rightButton", inputWidth:110, click:()=>{
+				{view:"button", type:"icon", icon:"plus-square", label:_("Add activity"), css:"rightButton", inputWidth:200, click:()=>{
 					this._jetPopup.showWindow("Add activity", "Add");
 				}},
 				DatatableView
