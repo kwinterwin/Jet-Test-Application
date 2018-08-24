@@ -1,5 +1,3 @@
-import ContactsView from "../views/contacts";
-
 export var ContactsData = new webix.DataCollection({
 	scheme:{
 		$init:function(obj){ 

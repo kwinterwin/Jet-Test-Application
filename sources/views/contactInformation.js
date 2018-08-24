@@ -43,7 +43,7 @@ export default class ContactInformationView extends JetView{
 			template:function(obj){ return "<div class='photo'><img src='" + obj.Photo + "' class='image' style='display:block;'> <span style='text-align:center;'>" + obj.StatusValue + " " + obj.StatusIcon + "</span></div>" + 
 			"<div style='float:top;'><span><i class='fa fa-envelope'></i>" + obj.Email + "</span><span><i class='fa fa-skype'></i>" + obj.Skype + "</span>"
 		+ "<span><i class='fa fa-tag'></i>" + obj.Job + "</span><span><i class='fa fa-briefcase'></i>" + obj.Company + "</span></div>"+
-			"<div><span><i class='fa fa-calendar'></i>" +  webix.i18n.longDateFormatStr(obj.Birthday) + "</span><span><i class='fa fa-map-marker'></i>" + obj.Address + "</span></div>"
+			"<div><span><i class='fa fa-calendar'></i>" +  webix.i18n.longDateFormatStr(obj.Birthday) + "</span><span><i class='fa fa-map-marker'></i>" + obj.Address + "</span></div>";
 			}};
 
 		let view = {
