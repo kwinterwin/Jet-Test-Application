@@ -47,4 +47,8 @@ export default class ContactStatusesView extends JetView{
 		});
 		this._jetPopup = this.ui(SettingPopupView);
 	}
+
+	add(values){
+		StatusesData.add(values);
+	}
 }

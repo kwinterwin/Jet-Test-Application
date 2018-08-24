@@ -14,11 +14,6 @@ export var ContactsData = new webix.DataCollection({
 			obj.StartDate = DateParser(obj.StartDate);
 		}
 	},
-	// on:{ 
-	// 	"data->onIdChange":(oldid,newid)=>{
-	// 		return newid;
-	// 	} 
-	// },
 	url:"http://localhost:8096/api/v1/contacts/",
 	save:"rest->http://localhost:8096/api/v1/contacts/"
 });

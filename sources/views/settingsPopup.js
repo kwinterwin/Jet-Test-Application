@@ -3,6 +3,7 @@ import {ActivityTypesData} from "../models/activityTypesCollection";
 import {StatusesData} from "../models/statusesCollection";
 
 export default class SettingPopupView extends JetView{
+	
 	config(){
 		const _ = this.app.getService("locale")._;
 		let form = {
@@ -14,21 +15,9 @@ export default class SettingPopupView extends JetView{
 				{cols:[
 					{},{},
 					{ view:"button", value:"", localId:"addButton", type:"form", inputWidth:100, click:()=>{
-						console.log(this.getUrl());
-						// var pathArray = window.location;
-						// console.log(pathArray);
-						// if(this.getUrl()=="SettingsActivitiesView")
-						// console.log("njlnsdkd");
-						// console.log(this.getUrl());
-						// let data = this.$$("form").getValues();
-						// console.log(this.app.getUrl());
-						// let url = this.getUrl()
-						// if (url == "contactsStatuses"){
-						// 	StatusesData.add(data);
-						// }
-						// else
-						// 	ActivityTypesData.add(data);
-						// this.hideWindow();
+						let values = this.$$("form").getValues();
+						this.getParentView().add(values);
+						this.hideWindow();
 					}
 					},
 					{ view:"button", value:_("Cancel"), inputWidth:100,  click:()=>this.hideWindow()},

@@ -47,4 +47,8 @@ export default class SettingsActivitiesView extends JetView{
 		});
 		this._jetPopup = this.ui(SettingPopupView);
 	}
+
+	add(values){
+		ActivityTypesData.add(values);
+	}
 }

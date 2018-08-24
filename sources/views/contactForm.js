@@ -87,12 +87,6 @@ export default class ContactFormView extends JetView{
 						if(values.hasOwnProperty("Photo")==false)
 							values.Photo = " ";							
 						ContactsData.add(values);
-						// let v = ContactsData.data.callEvent("onIdChange");
-						// console.log(v);
-						// ContactsData.data.attachEvent("onIdChange", (oldid,newid)=>{
-						// 	let path = "?id=" + newid + "/contactInformation";
-						// 	this.getParentView().show(path);
-						// });
 
 					}
 					else {
