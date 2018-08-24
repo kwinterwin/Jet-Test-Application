@@ -37,6 +37,7 @@ export default class DatatableView extends JetView{
 			columns:[
 				{ template:"{common.checkbox()}", checkValue:"Close", uncheckValue:"Open", id:"State", width:55, header:""},
 				{ id:"TypeID",   header:[_("Activity type"), {content:"selectFilter"}], fillspace:2, sort:"string", options:ActivityTypesData},
+
 				{ id:"DueDate",    header:[_("Due date")], sort:"date", fillspace:2, format:function(value){
 					let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
 					value = DateParser(value);
@@ -100,7 +101,7 @@ export default class DatatableView extends JetView{
 			ActivityData.waitData.then(()=>{
 				this.$$("activityDatatable").parse(ActivityData);
 			});	
-			this.$$("activityDatatable").showColumn("ContactID");
+			// this.$$("activityDatatable").showColumn("ContactID");
 		}
 		else {
 			ActivityData.waitData.then(()=>{
