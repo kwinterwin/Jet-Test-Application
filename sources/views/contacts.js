@@ -3,6 +3,7 @@ import {ContactsData} from "models/contactsCollection";
 
 export default class ContactsView extends JetView{
 	config(){
+		const _ = this.app.getService("locale")._;
 		var list = {
 			view:"list",
 			localId:"list", 
@@ -17,20 +18,41 @@ export default class ContactsView extends JetView{
 					this.app.show(path);
 				}
 			}};
+
+		let addButton = {
+			view:"button",
+			value:_("Add contact"),
+			click:()=>{
+				var path = "/top/contacts/contactForm";
+				this.show(path);
+			}
+		};
 	
-		
-		return {cols:[list,{$subview:true}]};
+		return {cols:[{rows:[list, addButton]},{$subview:true}]};
 	}
 	init(){
 		this.$$("list").parse(ContactsData);
-	}
-	urlChange(){
+
 		ContactsData.waitData.then(()=>{
 			var id = this.getParam("id") || ContactsData.getFirstId();
 			if(ContactsData.exists(id)) {
 				this.$$("list").select(id);
 			}
 		});
-		
+
+		ContactsData.data.attachEvent("onIdChange", (oldid,newid)=>{
+			this.$$("list").select(newid);
+		});
+	}
+	urlChange(){
+		ContactsData.waitData.then(()=>{
+			var id = this.getParam("id");
+			if(ContactsData.exists(id)) {
+				this.$$("list").select(id);
+			}
+		});
+	}
+	destroy(){
+		ContactsData.data.detachEvent("onIdChange");
 	}
 }
