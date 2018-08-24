@@ -6,6 +6,7 @@ import ActivitiesPopupView from "./activitiesPopup";
 
 export default class DatatableView extends JetView{
 	config(){
+		const _ = this.app.getService("locale")._;
 		let datatable = {
 			view:"datatable", 
 			select: true,
@@ -13,14 +14,14 @@ export default class DatatableView extends JetView{
 			localId: "activityDatatable",
 			columns:[
 				{ template:"{common.checkbox()}", checkValue:"Close", uncheckValue:"Open", id:"State", width:55, header:""},
-				{ id:"TypeID",   header:["Activity type", {content:"selectFilter"}], fillspace:2, sort:"string", options:ActivityTypesData},
-				{ id:"DueDate",    header:["Due date", {content:"datepickerFilter"}], sort:"date", fillspace:2, format:function(value){
+				{ id:"TypeID",   header:[_("Activity type"), {content:"selectFilter"}], fillspace:2, sort:"string", options:ActivityTypesData},
+				{ id:"DueDate",    header:[_("Due date"), {content:"datepickerFilter"}], sort:"date", fillspace:2, format:function(value){
 					let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
 					value = DateParser(value);
 					return value;
 				}},
-				{ id:"Details",   header:["Details",{content:"textFilter"}], fillspace:2, sort:"string"},
-				{ id:"ContactID",   header:["Contact",{content:"selectFilter"}], sort:"string", options:ContactsData, fillspace:2},
+				{ id:"Details",   header:[_("Details"),{content:"textFilter"}], fillspace:2, sort:"string"},
+				{ id:"ContactID",   header:[_("Contact"),{content:"selectFilter"}], sort:"string",hidden:true, options:ContactsData, fillspace:2},
 				{ template:"<i class='fa fa-pencil-square-o edit'></i>", width:40},
 				{ template:"<i class='fa fa-trash delete'></i>", width:40}
 			],
@@ -36,7 +37,7 @@ export default class DatatableView extends JetView{
 			onClick: {
 				delete: function (e, id) {
 					webix.confirm({
-						text: "Activity will be removed. Continue?", title: "Attention",
+						text: _("Activity will be removed. Continue?"), title: _("Attention"),
 						ok: "Yes",
 						cancel: "No",
 						callback: (result)=> {
@@ -59,7 +60,7 @@ export default class DatatableView extends JetView{
 		return {
 			rows:[
 				datatable,
-				{view:"button", localId:"addButton", type:"icon", icon:"plus-square", label:"Add activity", css:"blueButton", inputWidth:200, click:()=>{
+				{view:"button", localId:"addButton", type:"icon", icon:"plus-square", label:_("Add activity"), css:"blueButton", inputWidth:200, click:()=>{
 					let value = this.getParam("id", true);
 					this._jetPopup.showWindow("Add activity", "Add", value);
 				}}
@@ -69,13 +70,14 @@ export default class DatatableView extends JetView{
 	}
     
 	showDatatable(){
+		var url = this.getUrl();
 		var id = this.getParam("id", true);
-		if(typeof id == "undefined"){
+		if(url[0].page=="data"){
 			this.$$("addButton").hide();
 			ActivityData.waitData.then(()=>{
 				this.$$("activityDatatable").parse(ActivityData);
 			});	
-			this.$$("activityDatatable").showColumn("ContactID");
+			// this.$$("activityDatatable").showColumn("ContactID");
 		}
 		else {
 			ActivityData.waitData.then(()=>{
@@ -84,13 +86,14 @@ export default class DatatableView extends JetView{
 						return obj.ContactID == id;
 					});
 				});
+
 			});  
-			
 		}
 	}
     
 	init(){
-		this.$$("activityDatatable").hideColumn("ContactID");
+		this.showDatatable();
+		this._jetPopup = this.ui(ActivitiesPopupView);
 	}
     
 	urlChange(){

@@ -17,21 +17,22 @@ export default class FilesDatatableView extends JetView{
 	}
 
 	config(){
+		const _ = this.app.getService("locale")._;
 		let datatable = {
 			view:"datatable", 
 			select: true,
 			localId: "filesDatatable",
 			scrollX:false,
 			columns:[
-				{ id:"Name", header:"Name", fillspace:2, sort:"string"},
-				{ id:"ChangeDate", header:"Change Date", fillspace:1.1, sort:this.sort_by_date},
-				{ id:"Size", header:"Size", fillspace:0.8, sort:"int", template:"#Size# kb"},
+				{ id:"Name", header:_("Name"), fillspace:2, sort:"string"},
+				{ id:"ChangeDate", header:_("Change Date"), fillspace:1.1, sort:this.sort_by_date},
+				{ id:"Size", header:_("Size"), fillspace:0.8, sort:"int", template:"#Size# kb"},
 				{ template:"<i class='fa fa-trash delete'></i>", width:40}
 			],
 			onClick: {
 				delete: function (e, id) {
 					webix.confirm({
-						text: "Activity will be removed. Continue?", title: "Attention",
+						text: _("Activity will be removed. Continue?"), title: _("Attention"),
 						ok: "Yes",
 						cancel: "No",
 						callback: (result)=> {
@@ -50,7 +51,7 @@ export default class FilesDatatableView extends JetView{
 			rows:[
 				datatable,
 				{cols:[{},
-					{view: "uploader" , type:"iconButton", icon:"cloud-upload", label:"Upload file", css:"uploadButton",
+					{view: "uploader" , type:"iconButton", icon:"cloud-upload", label:_("Upload file"), css:"uploadButton",
 						on:{     
 							onBeforeFileAdd: (upload)=>{        
 								var file = upload.file;

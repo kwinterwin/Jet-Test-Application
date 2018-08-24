@@ -3,6 +3,7 @@ import {ContactsData} from "models/contactsCollection";
 
 export default class ContactsView extends JetView{
 	config(){
+		const _ = this.app.getService("locale")._;
 		var list = {
 			view:"list",
 			localId:"list", 
@@ -20,10 +21,10 @@ export default class ContactsView extends JetView{
 
 		let addButton = {
 			view:"button",
-			value:"Add contact",
+			value:_("Add contact"),
 			click:()=>{
 				var path = "/top/contacts/contactForm";
-				this.app.show(path);
+				this.show(path);
 			}
 		};
 	
@@ -38,6 +39,10 @@ export default class ContactsView extends JetView{
 				this.$$("list").select(id);
 			}
 		});
+
+		ContactsData.data.attachEvent("onIdChange", (oldid,newid)=>{
+			this.$$("list").select(newid);
+		});
 	}
 	urlChange(){
 		ContactsData.waitData.then(()=>{
@@ -46,5 +51,8 @@ export default class ContactsView extends JetView{
 				this.$$("list").select(id);
 			}
 		});
+	}
+	destroy(){
+		ContactsData.data.detachEvent("onIdChange");
 	}
 }
