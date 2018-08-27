@@ -87,7 +87,6 @@ export default class ContactFormView extends JetView{
 						if(values.hasOwnProperty("Photo")==false)
 							values.Photo = " ";							
 						ContactsData.add(values);
-
 					}
 					else {
 						ContactsData.updateItem(id, values);

@@ -4,6 +4,7 @@ import {ContactsData} from "models/contactsCollection";
 export default class ContactsView extends JetView{
 	config(){
 		const _ = this.app.getService("locale")._;
+
 		let search =
 		{
 			view: "search", localId: "search", placeholder: "Search..",
@@ -14,7 +15,6 @@ export default class ContactsView extends JetView{
 				}
 			}
 		};
-	
 
 		var list = {
 			view:"list",
@@ -78,7 +78,7 @@ export default class ContactsView extends JetView{
 			}
 		});
 	}
-	
+
 	destroy(){
 		ContactsData.data.detachEvent("onIdChange");
 	}
