@@ -99,8 +99,9 @@ export default class DatatableView extends JetView{
 			this.$$("addButton").hide();
 			ActivityData.waitData.then(()=>{
 				this.$$("activityDatatable").parse(ActivityData);
-			});	
-			this.$$("activityDatatable").showColumn("ContactID");
+			});
+			if(this.$$("activityDatatable").isColumnVisible("ContactID")==false)	
+				this.$$("activityDatatable").showColumn("ContactID");
 		}
 		else {
 			ActivityData.waitData.then(()=>{
