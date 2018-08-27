@@ -1,6 +1,6 @@
 import {JetView} from "webix-jet";
-import {ActivityTypesData} from "../models/activityTypesCollection";
-import {StatusesData} from "../models/statusesCollection";
+// import {ActivityTypesData} from "../models/activityTypesCollection";
+// import {StatusesData} from "../models/statusesCollection";
 
 export default class SettingPopupView extends JetView{
 	
@@ -16,7 +16,7 @@ export default class SettingPopupView extends JetView{
 					{},{},
 					{ view:"button", value:"", localId:"addButton", type:"form", inputWidth:100, click:()=>{
 						let values = this.$$("form").getValues();
-						this.getParentView().add(values);
+						this.getMaster().add(values);
 						this.hideWindow();
 					}
 					},
@@ -40,12 +40,22 @@ export default class SettingPopupView extends JetView{
 		};
 		return popup;
 	}
+
+	setMaster(value){
+		this.master = value;
+	}
+
+	getMaster(){
+		return this.master;
+	}
     
-	showWindow(label, buttonLabel) {
-		this.$$("form").clear();	
+	showWindow(label, buttonLabel, collection) {
+		const _ = this.app.getService("locale")._;
+		this.$$("form").clear();
+		this.setMaster(collection);	
 		this.getRoot().show();
-		this.$$("toolbarLabel").setValue(label);
-		this.$$("addButton").setValue(buttonLabel);
+		this.$$("toolbarLabel").setValue(_(label));
+		this.$$("addButton").setValue(_(buttonLabel));
 	}
 
 	hideWindow(){

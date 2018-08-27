@@ -46,5 +46,12 @@ export default {
 	"Language" :"Language",
 	"Contact status":"Contact status",
 	"Add activity type":"Add activity type",
-	"Add status":"Add status"
+	"Add status":"Add status",
+	"Add contact statuses" :"Add contact statuses",
+	"All" : "All",
+	"Overdue" : "Overdue",
+	"Today" : "Today",
+	"Tomorrow" : "Tomorrow",
+	"This week" : "This week",
+	"This month" : "This month"
 };

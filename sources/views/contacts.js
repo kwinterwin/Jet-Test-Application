@@ -58,10 +58,14 @@ export default class ContactsView extends JetView{
 
 		this.on(this.app, "list:filter", (value) => {
 			this.$$("list").filter((obj) => {
-				let name = obj.FirstName.toLowerCase().indexOf(value) == 0;
-				let email = obj.Email.toLowerCase().indexOf(value) == 0;
-				let surname = obj.LastName.toLowerCase().indexOf(value) == 0;
-				return name || email || surname;
+				let name = obj.FirstName.toLowerCase().indexOf(value) != -1;
+				let email = obj.Email.toLowerCase().indexOf(value) != -1;
+				let surname = obj.LastName.toLowerCase().indexOf(value) != -1;
+				let company = obj.Company.toLowerCase().indexOf(value) != -1;
+				let skype = obj.Skype.toLowerCase().indexOf(value) != -1;
+				let job = obj.Job.toLowerCase().indexOf(value) != -1;
+				let phone = obj.Phone.toLowerCase().indexOf(value) != -1;
+				return name || email || surname || company || skype || job || phone;
 			});
 		});
 	}

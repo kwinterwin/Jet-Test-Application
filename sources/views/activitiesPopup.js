@@ -15,7 +15,7 @@ export default class ActivitiesPopupView extends JetView{
 				{ view:"richselect", name:"ContactID", labelWidth:100,  label:_("Contact"), required:true, options:{body:{template:"#FirstName# #LastName#", data: ContactsData}} },
 				{cols:[
 					{view:"datepicker", label:_("Date"), labelWidth:100, name:"DueDate",  format:"%d-%m-%Y"},
-					{view:"datepicker", type:"time", labelWidth:100,  label:_("Time"), name:"Time"}
+					{view:"datepicker", type:"time", labelWidth:100,  label:_("Time"), name:"Time", localId:"time"}
 				]},
 				{view:"checkbox", labelRight:_("Completed"), labelAlign:"right", labelWidth:100,  name:"State", checkValue:"Close", uncheckValue:"Open"},
 				{cols:[
@@ -23,7 +23,10 @@ export default class ActivitiesPopupView extends JetView{
 					{ view:"button", value:"", localId:"addButton", type:"form", inputWidth:100, click:()=>{
 						if(this.$$("form").validate()){
 							let values = this.$$("form").getValues();
-
+							if (values.Time != null){
+								values.DueDate.setMinutes(this.$$("form").getValues().Time.getMinutes());
+								values.DueDate.setHours(this.$$("form").getValues().Time.getHours());}
+							delete values.Time;
 							if (values.id && ActivityData.exists(values.id))
 								ActivityData.updateItem(values.id, values);
 							else

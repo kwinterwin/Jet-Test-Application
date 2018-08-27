@@ -49,5 +49,12 @@ export default {
 	"Language" :"Язык",
 	"Contact status":"Статусы контакта",
 	"Add activity type":"Добавить тип деятельности",
-	"Add status":"Добавить статус контакта"
+	"Add status":"Добавить статус контакта",
+	"Add contact statuses" : " Добавить статус контактов",
+	"All" : "Все",
+	"Overdue" : "Прошедшие",
+	"Today" : "Сегодня",
+	"Tomorrow" : "Завтра",
+	"This week" : "Эта неделя",
+	"This month" : "Этот месяц"
 };

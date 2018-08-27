@@ -14,13 +14,13 @@ export default class DatatableView extends JetView{
 			localId:"selector",
 			view: "segmented",
 			options: [
-				{localId: "all", value: "All"},
-				{localId: "overdue", value: "Overdue"},
-				{localId: "complited", value: "Complited"},
-				{localId: "today", value: "Today"},
-				{localId: "tomorrow", value: "Tomorrow"},
-				{localId: "this week", value: "This week"},
-				{localId: "this month", value: "This month"}
+				{localId: "all", value: _("All")},
+				{localId: "overdue", value: _("Overdue")},
+				{localId: "complited", value: _("Completed")},
+				{localId: "today", value: _("Today")},
+				{localId: "tomorrow", value: _("Tomorrow")},
+				{localId: "this week", value: _("This week")},
+				{localId: "this month", value: _("This month")}
 			],
 			on:{
 				onChange:()=>{
@@ -37,7 +37,7 @@ export default class DatatableView extends JetView{
 			columns:[
 				{ template:"{common.checkbox()}", checkValue:"Close", uncheckValue:"Open", id:"State", width:55, header:""},
 				{ id:"TypeID",   header:[_("Activity type"), {content:"selectFilter"}], fillspace:2, sort:"string", options:ActivityTypesData},
-				{ id:"DueDate",    header:[_("Due date")], sort:"date", fillspace:2, format:function(value){
+				{ id:"DueDate",    header:[_("Due date"), {content:"datepickerFilter"}], sort:"date", fillspace:2, format:function(value){
 					let DateParser = webix.Date.dateToStr("%d-%m-%Y %H:%i");
 					value = DateParser(value);
 					return value;
@@ -128,39 +128,39 @@ export default class DatatableView extends JetView{
 	ready(){
 		this.$$("activityDatatable").registerFilter(
 			this.$$("selector"), 
-			{columnId:"DueDate", compare: function(value, filter, item){
+			{compare: function(value, filter, item){
 				let currentDate = webix.Date.dayStart(new Date());
 
 				switch (filter) {
 					case "All":
 					{
-						return value;
+						return item.DueDate;
 					}
 					case "Overdue": 
 					{
-						return value < currentDate;
+						return item.DueDate < currentDate;
 					}
-					case "Complited":
+					case "Completed":
 					{
 						return item.State == "Close";
 					}
 					case "Today":
 					{
-						return webix.Date.equal(value, currentDate);
+						return webix.Date.equal(item.DueDate, currentDate);
 								
 					}
 					case "Tomorrow":
 					{
-						return webix.Date.equal(webix.Date.add(currentDate, 1, "day"), value);
+						return webix.Date.equal(webix.Date.add(currentDate, 1, "day"), item.DueDate);
 								
 					}
 					case "This week":
 					{
-						return webix.Date.equal(webix.Date.weekStart(value), webix.Date.weekStart(currentDate));
+						return webix.Date.equal(webix.Date.weekStart(item.DueDate), webix.Date.weekStart(currentDate));
 					}
 					case "This month":
 					{
-						return webix.Date.equal(webix.Date.monthStart(value), webix.Date.monthStart(currentDate));
+						return webix.Date.equal(webix.Date.monthStart(item.DueDate), webix.Date.monthStart(currentDate));
 						
 					}
 						

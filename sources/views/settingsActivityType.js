@@ -9,7 +9,7 @@ export default class SettingsActivitiesView extends JetView{
 		return  {
 			rows:[
 				{view:"button", value:_("Add activity type"), inputWidth:300, css:"rightButton", click:()=>{
-					this._jetPopup.showWindow("Add activity type", "Add");
+					this._jetPopup.showWindow("Add activity type", "Add", ActivityTypesData);
 				}},
 				{view:"datatable",
 					editable: true,
@@ -48,7 +48,4 @@ export default class SettingsActivitiesView extends JetView{
 		this._jetPopup = this.ui(SettingPopupView);
 	}
 
-	add(values){
-		ActivityTypesData.add(values);
-	}
 }

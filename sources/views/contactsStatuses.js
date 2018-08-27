@@ -9,7 +9,7 @@ export default class ContactStatusesView extends JetView{
 		return  {
 			rows:[
 				{view:"button", value:_("Add status"), inputWidth:300, css:"rightButton", click:()=>{
-					this._jetPopup.showWindow("Add contact statuses", "Add");
+					this._jetPopup.showWindow("Add contact statuses", "Add", StatusesData);
 				}},
 				{view:"datatable",
 					editable: true,
@@ -48,7 +48,4 @@ export default class ContactStatusesView extends JetView{
 		this._jetPopup = this.ui(SettingPopupView);
 	}
 
-	add(values){
-		StatusesData.add(values);
-	}
 }
