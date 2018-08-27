@@ -7,6 +7,28 @@ import ActivitiesPopupView from "./activitiesPopup";
 export default class DatatableView extends JetView{
 	config(){
 		const _ = this.app.getService("locale")._;
+
+		let sortButton = {
+			name: "filter",
+			optionWidth: 120,
+			localId:"selector",
+			view: "segmented",
+			options: [
+				{localId: "all", value: _("All")},
+				{localId: "overdue", value: _("Overdue")},
+				{localId: "complited", value: _("Completed")},
+				{localId: "today", value: _("Today")},
+				{localId: "tomorrow", value: _("Tomorrow")},
+				{localId: "this week", value: _("This week")},
+				{localId: "this month", value: _("This month")}
+			],
+			on:{
+				onChange:()=>{
+					this.$$("activityDatatable").filterByAll();
+				}
+			}
+		};
+
 		let datatable = {
 			view:"datatable", 
 			select: true,
@@ -59,6 +81,7 @@ export default class DatatableView extends JetView{
         
 		return {
 			rows:[
+				sortButton,
 				datatable,
 				{view:"button", localId:"addButton", type:"icon", icon:"plus-square", label:_("Add activity"), css:"blueButton", inputWidth:200, click:()=>{
 					let value = this.getParam("id", true);
@@ -76,11 +99,13 @@ export default class DatatableView extends JetView{
 			this.$$("addButton").hide();
 			ActivityData.waitData.then(()=>{
 				this.$$("activityDatatable").parse(ActivityData);
-			});	
-			// this.$$("activityDatatable").showColumn("ContactID");
+			});
+			if(this.$$("activityDatatable").isColumnVisible("ContactID")==false)	
+				this.$$("activityDatatable").showColumn("ContactID");
 		}
 		else {
 			ActivityData.waitData.then(()=>{
+				this.getRoot().queryView({name: "filter"}).hide();
 				this.$$("activityDatatable").sync(ActivityData, function(){
 					this.filter(function(obj){
 						return obj.ContactID == id;
@@ -99,6 +124,59 @@ export default class DatatableView extends JetView{
 	urlChange(){
 		this.showDatatable();
 		this._jetPopup = this.ui(ActivitiesPopupView);	
+	}
+
+	ready(){
+		this.$$("activityDatatable").registerFilter(
+			this.$$("selector"), 
+			{compare: function(value, filter, item){
+				let currentDate = webix.Date.dayStart(new Date());
+
+				switch (filter) {
+					case "All":
+					{
+						return item.DueDate;
+					}
+					case "Overdue": 
+					{
+						return item.DueDate < currentDate;
+					}
+					case "Completed":
+					{
+						return item.State == "Close";
+					}
+					case "Today":
+					{
+						return webix.Date.equal(item.DueDate, currentDate);
+								
+					}
+					case "Tomorrow":
+					{
+						return webix.Date.equal(webix.Date.add(currentDate, 1, "day"), item.DueDate);
+								
+					}
+					case "This week":
+					{
+						return webix.Date.equal(webix.Date.weekStart(item.DueDate), webix.Date.weekStart(currentDate));
+					}
+					case "This month":
+					{
+						return webix.Date.equal(webix.Date.monthStart(item.DueDate), webix.Date.monthStart(currentDate));
+						
+					}
+						
+				}
+			}
+			},
+			{ 
+				getValue:function(node){
+					return node.getValue();
+				},
+				setValue:function(node, value){
+					node.setValue(value);
+				}
+			}
+		);
 	}
 
 }
